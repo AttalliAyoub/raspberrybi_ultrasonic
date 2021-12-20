@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "index.js",
+    "comp": "tsc -p .",
+    "watch": "tsc -p . -w"
   },
   "keywords": [],
   "author": "",
@@ -13,6 +15,7 @@
     "onoff": "^6.0.3"
   },
   "devDependencies": {
+    "@types/node": "^17.0.1",
     "@types/onoff": "^4.1.0"
   }
 }
