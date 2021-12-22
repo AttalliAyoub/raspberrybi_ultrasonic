@@ -12,10 +12,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "onoff": "^6.0.3"
+    "onoff": "^6.0.3",
+    "ws": "^8.4.0"
   },
   "devDependencies": {
     "@types/node": "^17.0.1",
-    "@types/onoff": "^4.1.0"
+    "@types/onoff": "^4.1.0",
+    "@types/ws": "^8.2.2"
   }
 }

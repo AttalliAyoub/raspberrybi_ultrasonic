@@ -3,6 +3,8 @@ import { Gpio } from 'onoff';
 const trig = new Gpio(21, 'out');
 const echo = new Gpio(20, 'in');
 
+trig.writeSync(0);
+
 echo.watch((err, value) => {
     if (err) console.log(err);
     if (value) console.log(value, Date.now());
