@@ -41,8 +41,10 @@ var dir = new onoff_1.Gpio(20, 'out');
 var step = new onoff_1.Gpio(21, 'out');
 var full_steps = 360 / 1.8;
 var delay = 1000 / 48;
+console.log('stepup');
 dir.writeSync(1);
 step.writeSync(0);
+console.log('we started');
 var wait = function (miliseconds) {
     return new Promise(function (resolve) {
         setTimeout(function () {
@@ -67,6 +69,7 @@ var main = function () { return __awaiter(void 0, void 0, void 0, function () {
                 return [4 /*yield*/, wait(delay)];
             case 3:
                 _a.sent();
+                console.log("step " + i);
                 _a.label = 4;
             case 4:
                 i++;
