@@ -29,7 +29,7 @@ const setMode = (mode: Mode = Mode.Full): void => {
 }
 
 const mode = Mode['1/8'];
-const full_steps = (360 / 1.8) * Math.pow(2, mode);
+const full_steps = (360 / 1.8) * Math.pow(2, mode) * Math.pow(2, mode);
 console.log(mode, Math.pow(2, mode), full_steps);
 const delay = 1;
 

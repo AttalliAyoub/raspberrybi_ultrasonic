@@ -83,7 +83,7 @@ var setMode = function (mode) {
     }
 };
 var mode = Mode['1/8'];
-var full_steps = (360 / 1.8) * Math.pow(2, mode);
+var full_steps = (360 / 1.8) * Math.pow(2, mode) * Math.pow(2, mode);
 console.log(mode, Math.pow(2, mode), full_steps);
 var delay = 1;
 console.log('stepup');
