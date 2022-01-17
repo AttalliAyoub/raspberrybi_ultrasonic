@@ -7,7 +7,9 @@ enum Mode {
     '1/4',
     '1/8',
     '1/16',
-    '1/32'
+    '1/32',
+    '1/64',
+    '1/128',
 };
 
 const dir = new Gpio(20, { mode: Gpio.OUTPUT });
@@ -23,16 +25,18 @@ let full_steps = (360 / 1.8 / 2);
 const setMode = (mode: Mode = Mode.Full): void => {
     switch (mode) {
         case Mode.Full: m0.digitalWrite(0); m1.digitalWrite(0); m2.digitalWrite(0); full_steps = _full_steps; break;
-        case Mode.Half: m0.digitalWrite(1); m1.digitalWrite(0); m2.digitalWrite(0); full_steps = _full_steps * 2; break;
-        case Mode['1/4']: m0.digitalWrite(0); m1.digitalWrite(1); m2.digitalWrite(0); full_steps = _full_steps * 4; break;
-        case Mode['1/8']: m0.digitalWrite(1); m1.digitalWrite(1); m2.digitalWrite(0); full_steps = _full_steps * 8; break;
-        case Mode['1/16']: m0.digitalWrite(0); m1.digitalWrite(0); m2.digitalWrite(1); full_steps = _full_steps * 16; break;
-        case Mode['1/32']: m0.digitalWrite(1); m1.digitalWrite(0); m2.digitalWrite(1); full_steps = _full_steps * 32; break;
+        case Mode.Half: m0.digitalWrite(1); m1.digitalWrite(0); m2.digitalWrite(0); full_steps = _full_steps * 4; break;
+        case Mode['1/4']: m0.digitalWrite(0); m1.digitalWrite(1); m2.digitalWrite(0); full_steps = _full_steps * 16; break;
+        case Mode['1/8']: m0.digitalWrite(1); m1.digitalWrite(1); m2.digitalWrite(0); full_steps = _full_steps * 32; break;
+        case Mode['1/16']: m0.digitalWrite(0); m1.digitalWrite(0); m2.digitalWrite(1); full_steps = _full_steps; break;
+        case Mode['1/32']: m0.digitalWrite(1); m1.digitalWrite(0); m2.digitalWrite(1); full_steps = _full_steps * 4; break;
+        case Mode['1/64']: m0.digitalWrite(0); m1.digitalWrite(1); m2.digitalWrite(1); full_steps = _full_steps * 4; break;
+        case Mode['1/128']: m0.digitalWrite(1); m1.digitalWrite(1); m2.digitalWrite(1); full_steps = _full_steps * 4; break;
         default: return setMode(Mode.Full);
     }
 }
 
-const mode = Mode['1/4'];
+const mode = Mode['1/32'];
 const delay = 1;
 
 console.log('stepup');

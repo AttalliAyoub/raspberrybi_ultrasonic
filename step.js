@@ -46,6 +46,8 @@ var Mode;
     Mode[Mode["1/8"] = 3] = "1/8";
     Mode[Mode["1/16"] = 4] = "1/16";
     Mode[Mode["1/32"] = 5] = "1/32";
+    Mode[Mode["1/64"] = 6] = "1/64";
+    Mode[Mode["1/128"] = 7] = "1/128";
 })(Mode || (Mode = {}));
 ;
 var dir = new pigpio_1.Gpio(20, { mode: pigpio_1.Gpio.OUTPUT });
@@ -68,36 +70,48 @@ var setMode = function (mode) {
             m0.digitalWrite(1);
             m1.digitalWrite(0);
             m2.digitalWrite(0);
-            full_steps = _full_steps * 2;
+            full_steps = _full_steps * 4;
             break;
         case Mode['1/4']:
             m0.digitalWrite(0);
             m1.digitalWrite(1);
             m2.digitalWrite(0);
-            full_steps = _full_steps * 4;
+            full_steps = _full_steps * 16;
             break;
         case Mode['1/8']:
             m0.digitalWrite(1);
             m1.digitalWrite(1);
             m2.digitalWrite(0);
-            full_steps = _full_steps * 8;
+            full_steps = _full_steps * 32;
             break;
         case Mode['1/16']:
             m0.digitalWrite(0);
             m1.digitalWrite(0);
             m2.digitalWrite(1);
-            full_steps = _full_steps * 16;
+            full_steps = _full_steps;
             break;
         case Mode['1/32']:
             m0.digitalWrite(1);
             m1.digitalWrite(0);
             m2.digitalWrite(1);
-            full_steps = _full_steps * 32;
+            full_steps = _full_steps * 4;
+            break;
+        case Mode['1/64']:
+            m0.digitalWrite(0);
+            m1.digitalWrite(1);
+            m2.digitalWrite(1);
+            full_steps = _full_steps * 4;
+            break;
+        case Mode['1/128']:
+            m0.digitalWrite(1);
+            m1.digitalWrite(1);
+            m2.digitalWrite(1);
+            full_steps = _full_steps * 4;
             break;
         default: return setMode(Mode.Full);
     }
 };
-var mode = Mode['1/4'];
+var mode = Mode['1/32'];
 var delay = 1;
 console.log('stepup');
 dir.digitalWrite(1);
