@@ -36,7 +36,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var onoff_1 = require("onoff");
+// import { Gpio } from 'onoff';
+var pigpio_1 = require("pigpio");
 var Mode;
 (function (Mode) {
     Mode[Mode["Full"] = 0] = "Full";
@@ -47,48 +48,54 @@ var Mode;
     Mode[Mode["1/32"] = 5] = "1/32";
 })(Mode || (Mode = {}));
 ;
-var dir = new onoff_1.Gpio(20, 'out');
-var step = new onoff_1.Gpio(21, 'out');
-var m0 = new onoff_1.Gpio(14, 'out');
-var m1 = new onoff_1.Gpio(15, 'out');
-var m2 = new onoff_1.Gpio(18, 'out');
+var dir = new pigpio_1.Gpio(20, { mode: pigpio_1.Gpio.OUTPUT });
+var step = new pigpio_1.Gpio(21, { mode: pigpio_1.Gpio.OUTPUT });
+var m0 = new pigpio_1.Gpio(14, { mode: pigpio_1.Gpio.OUTPUT });
+var m1 = new pigpio_1.Gpio(15, { mode: pigpio_1.Gpio.OUTPUT });
+var m2 = new pigpio_1.Gpio(18, { mode: pigpio_1.Gpio.OUTPUT });
 var setMode = function (mode) {
     if (mode === void 0) { mode = Mode.Full; }
     switch (mode) {
         case Mode.Full:
-            m0.writeSync(0);
-            m1.writeSync(0);
-            return m2.writeSync(0);
+            m0.digitalWrite(0);
+            m1.digitalWrite(0);
+            m2.digitalWrite(0);
+            break;
         case Mode.Half:
-            m0.writeSync(1);
-            m1.writeSync(0);
-            return m2.writeSync(0);
+            m0.digitalWrite(1);
+            m1.digitalWrite(0);
+            m2.digitalWrite(0);
+            break;
         case Mode['1/4']:
-            m0.writeSync(0);
-            m1.writeSync(1);
-            return m2.writeSync(0);
+            m0.digitalWrite(0);
+            m1.digitalWrite(1);
+            m2.digitalWrite(0);
+            break;
         case Mode['1/8']:
-            m0.writeSync(1);
-            m1.writeSync(1);
-            return m2.writeSync(0);
+            m0.digitalWrite(1);
+            m1.digitalWrite(1);
+            m2.digitalWrite(0);
+            break;
         case Mode['1/16']:
-            m0.writeSync(0);
-            m1.writeSync(0);
-            return m2.writeSync(1);
+            m0.digitalWrite(0);
+            m1.digitalWrite(0);
+            m2.digitalWrite(1);
+            break;
         case Mode['1/32']:
-            m0.writeSync(1);
-            m1.writeSync(0);
-            return m2.writeSync(1);
+            m0.digitalWrite(1);
+            m1.digitalWrite(0);
+            m2.digitalWrite(1);
+            break;
         default: return setMode(Mode.Full);
     }
 };
 var mode = Mode['1/8'];
-var full_steps = (360 / 1.8) * Math.pow(2, mode) * mode + 1;
+var full_steps = (360 / 1.8) * Math.pow(2, mode) * (mode + 1);
 console.log(mode, Math.pow(2, mode), full_steps);
 var delay = 1;
 console.log('stepup');
-dir.writeSync(1);
-step.writeSync(0);
+dir.digitalWrite(1);
+step.digitalWrite(0);
 console.log('we started');
 var wait = function (miliseconds) {
     return new Promise(function (resolve) {
@@ -108,11 +115,11 @@ var main = function () { return __awaiter(void 0, void 0, void 0, function () {
                 _a.label = 1;
             case 1:
                 if (!(i < full_steps)) return [3 /*break*/, 5];
-                step.writeSync(1);
+                step.digitalWrite(1);
                 return [4 /*yield*/, wait(delay)];
             case 2:
                 _a.sent();
-                step.writeSync(0);
+                step.digitalWrite(0);
                 return [4 /*yield*/, wait(delay)];
             case 3:
                 _a.sent();
@@ -125,7 +132,7 @@ var main = function () { return __awaiter(void 0, void 0, void 0, function () {
                 return [4 /*yield*/, wait(100)];
             case 6:
                 _a.sent();
-                dir.writeSync(0);
+                dir.digitalWrite(0);
                 return [4 /*yield*/, wait(100)];
             case 7:
                 _a.sent();
@@ -133,11 +140,11 @@ var main = function () { return __awaiter(void 0, void 0, void 0, function () {
                 _a.label = 8;
             case 8:
                 if (!(i < full_steps)) return [3 /*break*/, 12];
-                step.writeSync(1);
+                step.digitalWrite(1);
                 return [4 /*yield*/, wait(delay)];
             case 9:
                 _a.sent();
-                step.writeSync(0);
+                step.digitalWrite(0);
                 return [4 /*yield*/, wait(delay)];
             case 10:
                 _a.sent();
@@ -147,18 +154,17 @@ var main = function () { return __awaiter(void 0, void 0, void 0, function () {
                 return [3 /*break*/, 8];
             case 12:
                 console.log('end of loop');
-                exo();
                 return [2 /*return*/];
         }
     });
 }); };
 main();
-process.on('SIGINT', function () { return exo(); });
-var exo = function () {
-    dir.unexport();
-    step.unexport();
-    m0.unexport();
-    m1.unexport();
-    m2.unexport();
-    console.log('script end');
-};
+// process.on('SIGINT', () => exo());
+// const exo = () => {
+//     dir.unexport();
+//     step.unexport();
+//     m0.unexport();
+//     m1.unexport();
+//     m2.unexport();
+//     console.log('script end');
+// };
