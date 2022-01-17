@@ -56,9 +56,9 @@ const main = async () => {
         await wait(delay);
     }
     console.log('2 pi backwords');
-    await wait(delay);
+    await wait(10);
     dir.writeSync(0);
-    await wait(delay);
+    await wait(10);
     for (let i = 0; i < full_steps; i++) {
         step.writeSync(1);
         await wait(delay);

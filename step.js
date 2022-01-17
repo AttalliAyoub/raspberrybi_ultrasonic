@@ -120,11 +120,11 @@ var main = function () { return __awaiter(void 0, void 0, void 0, function () {
                 return [3 /*break*/, 1];
             case 5:
                 console.log('2 pi backwords');
-                return [4 /*yield*/, wait(delay)];
+                return [4 /*yield*/, wait(10)];
             case 6:
                 _a.sent();
                 dir.writeSync(0);
-                return [4 /*yield*/, wait(delay)];
+                return [4 /*yield*/, wait(10)];
             case 7:
                 _a.sent();
                 i = 0;
