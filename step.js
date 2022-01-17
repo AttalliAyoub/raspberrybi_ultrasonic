@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// import { Gpio } from 'onoff';
+// import ws from 'ws';
 var pigpio_1 = require("pigpio");
 var Mode;
 (function (Mode) {
@@ -79,28 +79,12 @@ var setMode = function (mode) {
 };
 var mode = Mode['1/32'];
 var delay = 1;
-console.log('stepup');
 dir.digitalWrite(1);
 step.digitalWrite(0);
-console.log('we started');
 var main = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var i, interval;
     return __generator(this, function (_a) {
         setMode(mode);
-        console.log('2 pi forward');
-        i = 0;
-        interval = setInterval(function () {
-            step.trigger(delay, 1);
-            i++;
-            if (i >= full_steps * 180) {
-                if (0 == dir.digitalRead())
-                    clearInterval(interval);
-                i = 0;
-                console.log('2 pi backwords');
-                dir.digitalWrite(0);
-            }
-        }, delay * 2);
-        console.log('end of loop');
+        step.pwmWrite(255);
         return [2 /*return*/];
     });
 }); };
