@@ -47,7 +47,7 @@ const wait = (miliseconds: number) => {
 }
 
 const main = async () => {
-    setMode();
+    setMode(Mode.Half);
     console.log('2 pi forward');
     for (let i = 0; i < full_steps; i++) {
         step.writeSync(1);

@@ -100,7 +100,7 @@ var main = function () { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                setMode();
+                setMode(Mode.Half);
                 console.log('2 pi forward');
                 i = 0;
                 _a.label = 1;
