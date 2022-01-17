@@ -84,9 +84,10 @@ step.digitalWrite(0);
 var main = function () { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         setMode(mode);
-        step.pwmWrite(255);
-        setTimeout(function () {
-        }, 10000);
+        // step.pwmWrite(255);
+        setInterval(function () {
+            step.pwmWrite(255);
+        }, 20);
         return [2 /*return*/];
     });
 }); };
