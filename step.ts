@@ -20,8 +20,8 @@ const m0 = new Gpio(14, { mode: Gpio.OUTPUT });
 const m1 = new Gpio(15, { mode: Gpio.OUTPUT });
 const m2 = new Gpio(18, { mode: Gpio.OUTPUT });
 
-const _full_steps = (360 / 1.8);
-let full_steps = (360 / 1.8 / 2);
+const _full_steps = 1 / 1.8;
+let full_steps = _full_steps;
 
 const setMode_Help = (list: number[]) => {
     m0.digitalWrite(list[0]);
@@ -38,8 +38,8 @@ const setMode = (mode: Mode = Mode.Full): void => {
         case Mode['1/8']: return setMode_Help([1, 1, 0, _full_steps * 32]);
         case Mode['1/16']: return setMode_Help([0, 0, 1, _full_steps]);
         case Mode['1/32']: return setMode_Help([1, 0, 1, _full_steps * 4]);
-        case Mode['1/64']: return setMode_Help([0, 1, 1, _full_steps * 4]);
-        case Mode['1/128']: return setMode_Help([1, 1, 1, _full_steps * 4]);
+        case Mode['1/64']: return setMode_Help([0, 1, 1, _full_steps * 16]);
+        case Mode['1/128']: return setMode_Help([1, 1, 1, _full_steps * 32]);
         default: return setMode(Mode.Full);
     }
 }
@@ -54,14 +54,6 @@ step.digitalWrite(0);
 
 console.log('we started');
 
-const wait = (miliseconds: number) => {
-    return new Promise<void>((resolve) => {
-        setTimeout(() => {
-            resolve();
-        }, miliseconds);
-    });
-}
-
 const main = async () => {
     setMode(mode);
     console.log('2 pi forward');
@@ -69,7 +61,7 @@ const main = async () => {
     const interval  = setInterval(() => {
         step.trigger(delay, 1);
         i++;
-        if (i >= full_steps) {
+        if (i >= full_steps * 180) {
             if (0 == dir.digitalRead()) clearInterval(interval);
             i = 0;
             console.log('2 pi backwords');

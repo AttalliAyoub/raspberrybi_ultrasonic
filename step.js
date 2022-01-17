@@ -55,8 +55,8 @@ var step = new pigpio_1.Gpio(21, { mode: pigpio_1.Gpio.OUTPUT });
 var m0 = new pigpio_1.Gpio(14, { mode: pigpio_1.Gpio.OUTPUT });
 var m1 = new pigpio_1.Gpio(15, { mode: pigpio_1.Gpio.OUTPUT });
 var m2 = new pigpio_1.Gpio(18, { mode: pigpio_1.Gpio.OUTPUT });
-var _full_steps = (360 / 1.8);
-var full_steps = (360 / 1.8 / 2);
+var _full_steps = 1 / 1.8;
+var full_steps = _full_steps;
 var setMode_Help = function (list) {
     m0.digitalWrite(list[0]);
     m1.digitalWrite(list[1]);
@@ -72,8 +72,8 @@ var setMode = function (mode) {
         case Mode['1/8']: return setMode_Help([1, 1, 0, _full_steps * 32]);
         case Mode['1/16']: return setMode_Help([0, 0, 1, _full_steps]);
         case Mode['1/32']: return setMode_Help([1, 0, 1, _full_steps * 4]);
-        case Mode['1/64']: return setMode_Help([0, 1, 1, _full_steps * 4]);
-        case Mode['1/128']: return setMode_Help([1, 1, 1, _full_steps * 4]);
+        case Mode['1/64']: return setMode_Help([0, 1, 1, _full_steps * 16]);
+        case Mode['1/128']: return setMode_Help([1, 1, 1, _full_steps * 32]);
         default: return setMode(Mode.Full);
     }
 };
@@ -83,13 +83,6 @@ console.log('stepup');
 dir.digitalWrite(1);
 step.digitalWrite(0);
 console.log('we started');
-var wait = function (miliseconds) {
-    return new Promise(function (resolve) {
-        setTimeout(function () {
-            resolve();
-        }, miliseconds);
-    });
-};
 var main = function () { return __awaiter(void 0, void 0, void 0, function () {
     var i, interval;
     return __generator(this, function (_a) {
@@ -99,7 +92,7 @@ var main = function () { return __awaiter(void 0, void 0, void 0, function () {
         interval = setInterval(function () {
             step.trigger(delay, 1);
             i++;
-            if (i >= full_steps) {
+            if (i >= full_steps * 180) {
                 if (0 == dir.digitalRead())
                     clearInterval(interval);
                 i = 0;
