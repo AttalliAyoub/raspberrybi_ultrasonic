@@ -61,7 +61,7 @@ setInterval(() => {
     } else if (pulseWidth <= 1000) {
         increment = 100;
     }
-}, 1000);
+}, 1);
 
 // const main = async () => {
 //     setMode(mode);
