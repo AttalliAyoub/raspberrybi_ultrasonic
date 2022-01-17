@@ -82,7 +82,7 @@ var setMode = function (mode) {
         default: return setMode(Mode.Full);
     }
 };
-var mode = Mode['1/8'];
+var mode = Mode.Full;
 var full_steps = (360 / 1.8) * Math.pow(2, mode) * Math.pow(2, mode);
 console.log(mode, Math.pow(2, mode), full_steps);
 var delay = 1;
