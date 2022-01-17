@@ -31,12 +31,15 @@ const main = async () => {
         console.log(`step ${i}`);
     }
     console.log('end of loop');
+    exo();
 };
 
 main();
 
-process.on('SIGINT', () => {
+process.on('SIGINT', () => exo());
+
+const exo = () => {
     dir.unexport();
     step.unexport();
     console.log('script end');
-});
+};

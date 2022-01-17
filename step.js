@@ -76,13 +76,15 @@ var main = function () { return __awaiter(void 0, void 0, void 0, function () {
                 return [3 /*break*/, 1];
             case 5:
                 console.log('end of loop');
+                exo();
                 return [2 /*return*/];
         }
     });
 }); };
 main();
-process.on('SIGINT', function () {
+process.on('SIGINT', function () { return exo(); });
+var exo = function () {
     dir.unexport();
     step.unexport();
     console.log('script end');
-});
+};
