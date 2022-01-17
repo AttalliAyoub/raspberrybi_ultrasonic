@@ -29,7 +29,7 @@ const setMode = (mode: Mode = Mode.Full): void => {
     }
 }
 
-const mode = Mode.Half;
+const mode = Mode['1/8'];
 const full_steps = (360 / 1.8) * mode * 2;
 const delay = 1;
 
@@ -58,9 +58,9 @@ const main = async () => {
         await wait(delay);
     }
     console.log('2 pi backwords');
-    await wait(10);
+    await wait(100);
     dir.writeSync(0);
-    await wait(10);
+    await wait(100);
     for (let i = 0; i < full_steps; i++) {
         step.writeSync(1);
         await wait(delay);
