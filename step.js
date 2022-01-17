@@ -111,40 +111,27 @@ var wait = function (miliseconds) {
     });
 };
 var main = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var i, interval1, interval2;
+    var i, interval1;
     return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                setMode(mode);
-                console.log('2 pi forward');
+        setMode(mode);
+        console.log('2 pi forward');
+        i = 0;
+        interval1 = setInterval(function () {
+            step.trigger(delay, 1);
+            i++;
+            if (i >= full_steps) {
                 i = 0;
-                interval1 = setInterval(function () {
-                    step.trigger(delay, 1);
-                    i++;
-                    if (i >= full_steps) {
-                        i = 0;
-                        clearInterval(interval1);
-                    }
-                }, delay * 2);
+                clearInterval(interval1);
                 console.log('2 pi backwords');
-                return [4 /*yield*/, wait(100)];
-            case 1:
-                _a.sent();
                 dir.digitalWrite(0);
-                return [4 /*yield*/, wait(100)];
-            case 2:
-                _a.sent();
-                interval2 = setInterval(function () {
-                    step.trigger(delay, 1);
-                    i++;
-                    if (i >= full_steps) {
-                        i = 0;
-                        clearInterval(interval2);
-                    }
-                }, delay * 2);
-                console.log('end of loop');
-                return [2 /*return*/];
-        }
+            }
+        }, delay * 2);
+        console.log('2 pi backwords');
+        // await wait(100);
+        // dir.digitalWrite(0);
+        // await wait(100);
+        console.log('end of loop');
+        return [2 /*return*/];
     });
 }); };
 main();
