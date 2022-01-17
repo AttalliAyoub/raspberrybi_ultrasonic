@@ -53,22 +53,27 @@ const wait = (miliseconds: number) => {
 const main = async () => {
     setMode(mode);
     console.log('2 pi forward');
-    for (let i = 0; i < full_steps; i++) {
-        step.digitalWrite(1);
-        await wait(delay);
-        step.digitalWrite(0);
-        await wait(delay);
-    }
+    let i = 0;
+    const interval1  = setInterval(() => {
+        step.trigger(delay, 1);
+        i++;
+        if (i >= full_steps) {
+            i = 0;
+            clearInterval(interval1);
+        }
+    }, delay * 2);
     console.log('2 pi backwords');
     await wait(100);
     dir.digitalWrite(0);
     await wait(100);
-    for (let i = 0; i < full_steps; i++) {
-        step.digitalWrite(1);
-        await wait(delay);
-        step.digitalWrite(0);
-        await wait(delay);
-    }
+    const interval2  = setInterval(() => {
+        step.trigger(delay, 1);
+        i++;
+        if (i >= full_steps) {
+            i = 0;
+            clearInterval(interval2);
+        }
+    }, delay * 2);
     console.log('end of loop');
 };
 

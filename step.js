@@ -111,54 +111,37 @@ var wait = function (miliseconds) {
     });
 };
 var main = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var i, i;
+    var i, interval1, interval2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 setMode(mode);
                 console.log('2 pi forward');
                 i = 0;
-                _a.label = 1;
-            case 1:
-                if (!(i < full_steps)) return [3 /*break*/, 5];
-                step.digitalWrite(1);
-                return [4 /*yield*/, wait(delay)];
-            case 2:
-                _a.sent();
-                step.digitalWrite(0);
-                return [4 /*yield*/, wait(delay)];
-            case 3:
-                _a.sent();
-                _a.label = 4;
-            case 4:
-                i++;
-                return [3 /*break*/, 1];
-            case 5:
+                interval1 = setInterval(function () {
+                    step.trigger(delay, 1);
+                    i++;
+                    if (i >= full_steps) {
+                        i = 0;
+                        clearInterval(interval1);
+                    }
+                }, delay * 2);
                 console.log('2 pi backwords');
                 return [4 /*yield*/, wait(100)];
-            case 6:
+            case 1:
                 _a.sent();
                 dir.digitalWrite(0);
                 return [4 /*yield*/, wait(100)];
-            case 7:
+            case 2:
                 _a.sent();
-                i = 0;
-                _a.label = 8;
-            case 8:
-                if (!(i < full_steps)) return [3 /*break*/, 12];
-                step.digitalWrite(1);
-                return [4 /*yield*/, wait(delay)];
-            case 9:
-                _a.sent();
-                step.digitalWrite(0);
-                return [4 /*yield*/, wait(delay)];
-            case 10:
-                _a.sent();
-                _a.label = 11;
-            case 11:
-                i++;
-                return [3 /*break*/, 8];
-            case 12:
+                interval2 = setInterval(function () {
+                    step.trigger(delay, 1);
+                    i++;
+                    if (i >= full_steps) {
+                        i = 0;
+                        clearInterval(interval2);
+                    }
+                }, delay * 2);
                 console.log('end of loop');
                 return [2 /*return*/];
         }
