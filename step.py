@@ -1,8 +1,6 @@
 from time import sleep
 import RPi.GPIO as GPIO
 
-GPIO.cleanup() # cleanup all GPIO 
-
 DIR = 20   # Direction GPIO Pin
 STEP = 21  # Step GPIO Pin
 CW = 1     # Clockwise Rotation

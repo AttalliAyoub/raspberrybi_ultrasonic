@@ -40,7 +40,7 @@ var onoff_1 = require("onoff");
 var dir = new onoff_1.Gpio(20, 'out');
 var step = new onoff_1.Gpio(21, 'out');
 var full_steps = 360 / 1.8;
-var delay = 1000 / 48;
+var delay = 10;
 console.log('stepup');
 dir.writeSync(1);
 step.writeSync(0);
@@ -53,10 +53,11 @@ var wait = function (miliseconds) {
     });
 };
 var main = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var i;
+    var i, i;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
+                console.log('2 pi forward');
                 i = 0;
                 _a.label = 1;
             case 1:
@@ -69,12 +70,30 @@ var main = function () { return __awaiter(void 0, void 0, void 0, function () {
                 return [4 /*yield*/, wait(delay)];
             case 3:
                 _a.sent();
-                console.log("step " + i);
                 _a.label = 4;
             case 4:
                 i++;
                 return [3 /*break*/, 1];
             case 5:
+                console.log('2 pi backwords');
+                dir.writeSync(0);
+                i = 0;
+                _a.label = 6;
+            case 6:
+                if (!(i < full_steps)) return [3 /*break*/, 10];
+                step.writeSync(1);
+                return [4 /*yield*/, wait(delay)];
+            case 7:
+                _a.sent();
+                step.writeSync(0);
+                return [4 /*yield*/, wait(delay)];
+            case 8:
+                _a.sent();
+                _a.label = 9;
+            case 9:
+                i++;
+                return [3 /*break*/, 6];
+            case 10:
                 console.log('end of loop');
                 exo();
                 return [2 /*return*/];

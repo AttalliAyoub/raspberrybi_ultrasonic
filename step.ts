@@ -5,7 +5,7 @@ const dir = new Gpio(20, 'out');
 const step = new Gpio(21, 'out');
 
 const full_steps = 360 / 1.8;
-const delay = 1000 / 48;
+const delay = 10;
 
 console.log('stepup');
 
@@ -23,12 +23,20 @@ const wait = (miliseconds: number) => {
 }
 
 const main = async () => {
+    console.log('2 pi forward');
     for (let i = 0; i < full_steps; i++) {
         step.writeSync(1);
         await wait(delay);
         step.writeSync(0);
         await wait(delay);
-        console.log(`step ${i}`);
+    }
+    console.log('2 pi backwords');
+    dir.writeSync(0);
+    for (let i = 0; i < full_steps; i++) {
+        step.writeSync(1);
+        await wait(delay);
+        step.writeSync(0);
+        await wait(delay);
     }
     console.log('end of loop');
     exo();
