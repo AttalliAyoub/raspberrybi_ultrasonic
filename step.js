@@ -155,5 +155,8 @@ process.on('SIGINT', function () { return exo(); });
 var exo = function () {
     dir.unexport();
     step.unexport();
+    m0.unexport();
+    m1.unexport();
+    m2.unexport();
     console.log('script end');
 };

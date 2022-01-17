@@ -76,5 +76,8 @@ process.on('SIGINT', () => exo());
 const exo = () => {
     dir.unexport();
     step.unexport();
+    m0.unexport();
+    m1.unexport();
+    m2.unexport();
     console.log('script end');
 };
