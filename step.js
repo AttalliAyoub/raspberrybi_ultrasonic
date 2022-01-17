@@ -84,8 +84,8 @@ var setMode = function (mode) {
     }
 };
 var mode = Mode.Half;
-var full_steps = (360 / 1.8) * mode;
-var delay = 22;
+var full_steps = (360 / 1.8) * mode * 2;
+var delay = 1;
 console.log('stepup');
 dir.writeSync(1);
 step.writeSync(0);
