@@ -1,7 +1,6 @@
 import { Gpio } from 'onoff';
 
 enum Mode {
-    NUll,
     Full,
     Half,
     '1/4',
@@ -30,7 +29,7 @@ const setMode = (mode: Mode = Mode.Full): void => {
 }
 
 const mode = Mode['1/4'];
-const full_steps = (360 / 1.8) * mode * 2;
+const full_steps = (360 / 1.8) * Math.pow(2, mode);
 const delay = 1;
 
 console.log('stepup');

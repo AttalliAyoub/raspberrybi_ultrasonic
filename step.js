@@ -39,13 +39,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var onoff_1 = require("onoff");
 var Mode;
 (function (Mode) {
-    Mode[Mode["NUll"] = 0] = "NUll";
-    Mode[Mode["Full"] = 1] = "Full";
-    Mode[Mode["Half"] = 2] = "Half";
-    Mode[Mode["1/4"] = 3] = "1/4";
-    Mode[Mode["1/8"] = 4] = "1/8";
-    Mode[Mode["1/16"] = 5] = "1/16";
-    Mode[Mode["1/32"] = 6] = "1/32";
+    Mode[Mode["Full"] = 0] = "Full";
+    Mode[Mode["Half"] = 1] = "Half";
+    Mode[Mode["1/4"] = 2] = "1/4";
+    Mode[Mode["1/8"] = 3] = "1/8";
+    Mode[Mode["1/16"] = 4] = "1/16";
+    Mode[Mode["1/32"] = 5] = "1/32";
 })(Mode || (Mode = {}));
 ;
 var dir = new onoff_1.Gpio(20, 'out');
@@ -84,7 +83,7 @@ var setMode = function (mode) {
     }
 };
 var mode = Mode['1/4'];
-var full_steps = (360 / 1.8) * mode * 2;
+var full_steps = (360 / 1.8) * Math.pow(2, mode);
 var delay = 1;
 console.log('stepup');
 dir.writeSync(1);
