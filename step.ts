@@ -50,25 +50,34 @@ dir.digitalWrite(1);
 step.digitalWrite(0);
 
 
-const main = async () => {
-    setMode(mode);
-    // step.pwmWrite(255);
-    setInterval(() => {
-        step.pwmWrite(255);
-    }, 20);
-    // console.log('2 pi forward');
-    // let i = 0;
-    // const interval  = setInterval(() => {
-    //     step.trigger(delay, 1);
-    //     i++;
-    //     if (i >= full_steps * 180) {
-    //         if (0 == dir.digitalRead()) clearInterval(interval);
-    //         i = 0;
-    //         console.log('2 pi backwords');
-    //         dir.digitalWrite(0);
-    //     }
-    // }, delay * 2);
-    // console.log('end of loop');
-};
+let pulseWidth = 1000;
+let increment = 100;
 
-main();
+setInterval(() => {
+    step.servoWrite(pulseWidth);
+    pulseWidth += increment;
+    if (pulseWidth >= 2000) {
+        increment = -100;
+    } else if (pulseWidth <= 1000) {
+        increment = 100;
+    }
+}, 1000);
+
+// const main = async () => {
+//     setMode(mode);
+//     console.log('2 pi forward');
+//     let i = 0;
+//     const interval  = setInterval(() => {
+//         step.trigger(delay, 1);
+//         i++;
+//         if (i >= full_steps * 180) {
+//             if (0 == dir.digitalRead()) clearInterval(interval);
+//             i = 0;
+//             console.log('2 pi backwords');
+//             dir.digitalWrite(0);
+//         }
+//     }, delay * 2);
+//     console.log('end of loop');
+// };
+
+// main();
