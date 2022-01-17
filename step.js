@@ -68,31 +68,31 @@ var setMode = function (mode) {
             m0.digitalWrite(1);
             m1.digitalWrite(0);
             m2.digitalWrite(0);
-            full_steps = _full_steps * 2;
+            full_steps = _full_steps * 4;
             break;
         case Mode['1/4']:
             m0.digitalWrite(0);
             m1.digitalWrite(1);
             m2.digitalWrite(0);
-            full_steps = _full_steps * 4;
+            full_steps = _full_steps * 8;
             break;
         case Mode['1/8']:
             m0.digitalWrite(1);
             m1.digitalWrite(1);
             m2.digitalWrite(0);
-            full_steps = _full_steps * 8;
+            full_steps = _full_steps * 16;
             break;
         case Mode['1/16']:
             m0.digitalWrite(0);
             m1.digitalWrite(0);
             m2.digitalWrite(1);
-            full_steps = _full_steps * 16;
+            full_steps = _full_steps * 32;
             break;
         case Mode['1/32']:
             m0.digitalWrite(1);
             m1.digitalWrite(0);
             m2.digitalWrite(1);
-            full_steps = _full_steps * 32;
+            full_steps = _full_steps * 64;
             break;
         default: return setMode(Mode.Full);
     }
