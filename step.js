@@ -53,6 +53,8 @@ var step = new pigpio_1.Gpio(21, { mode: pigpio_1.Gpio.OUTPUT });
 var m0 = new pigpio_1.Gpio(14, { mode: pigpio_1.Gpio.OUTPUT });
 var m1 = new pigpio_1.Gpio(15, { mode: pigpio_1.Gpio.OUTPUT });
 var m2 = new pigpio_1.Gpio(18, { mode: pigpio_1.Gpio.OUTPUT });
+var _full_steps = (360 / 1.8);
+var full_steps = (360 / 1.8);
 var setMode = function (mode) {
     if (mode === void 0) { mode = Mode.Full; }
     switch (mode) {
@@ -60,38 +62,42 @@ var setMode = function (mode) {
             m0.digitalWrite(0);
             m1.digitalWrite(0);
             m2.digitalWrite(0);
+            full_steps = _full_steps;
             break;
         case Mode.Half:
             m0.digitalWrite(1);
             m1.digitalWrite(0);
             m2.digitalWrite(0);
+            full_steps = _full_steps * 2;
             break;
         case Mode['1/4']:
             m0.digitalWrite(0);
             m1.digitalWrite(1);
             m2.digitalWrite(0);
+            full_steps = _full_steps * 4;
             break;
         case Mode['1/8']:
             m0.digitalWrite(1);
             m1.digitalWrite(1);
             m2.digitalWrite(0);
+            full_steps = _full_steps * 8;
             break;
         case Mode['1/16']:
             m0.digitalWrite(0);
             m1.digitalWrite(0);
             m2.digitalWrite(1);
+            full_steps = _full_steps * 16;
             break;
         case Mode['1/32']:
             m0.digitalWrite(1);
             m1.digitalWrite(0);
             m2.digitalWrite(1);
+            full_steps = _full_steps * 32;
             break;
         default: return setMode(Mode.Full);
     }
 };
-var mode = Mode['1/8'];
-var full_steps = (360 / 1.8) * Math.pow(2, mode) * (mode + 1);
-console.log(mode, Math.pow(2, mode), full_steps);
+var mode = Mode.Full;
 var delay = 1;
 console.log('stepup');
 dir.digitalWrite(1);
@@ -159,12 +165,3 @@ var main = function () { return __awaiter(void 0, void 0, void 0, function () {
     });
 }); };
 main();
-// process.on('SIGINT', () => exo());
-// const exo = () => {
-//     dir.unexport();
-//     step.unexport();
-//     m0.unexport();
-//     m1.unexport();
-//     m2.unexport();
-//     console.log('script end');
-// };

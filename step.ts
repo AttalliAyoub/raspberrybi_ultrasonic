@@ -17,21 +17,22 @@ const m0 = new Gpio(14, { mode: Gpio.OUTPUT });
 const m1 = new Gpio(15, { mode: Gpio.OUTPUT });
 const m2 = new Gpio(18, { mode: Gpio.OUTPUT });
 
+const _full_steps = (360 / 1.8);
+let full_steps = (360 / 1.8);
+
 const setMode = (mode: Mode = Mode.Full): void => {
     switch (mode) {
-        case Mode.Full: m0.digitalWrite(0); m1.digitalWrite(0); m2.digitalWrite(0); break;
-        case Mode.Half: m0.digitalWrite(1); m1.digitalWrite(0); m2.digitalWrite(0); break;
-        case Mode['1/4']: m0.digitalWrite(0); m1.digitalWrite(1); m2.digitalWrite(0); break;
-        case Mode['1/8']: m0.digitalWrite(1); m1.digitalWrite(1); m2.digitalWrite(0); break;
-        case Mode['1/16']: m0.digitalWrite(0); m1.digitalWrite(0); m2.digitalWrite(1); break;
-        case Mode['1/32']: m0.digitalWrite(1); m1.digitalWrite(0); m2.digitalWrite(1); break;
+        case Mode.Full: m0.digitalWrite(0); m1.digitalWrite(0); m2.digitalWrite(0); full_steps = _full_steps; break;
+        case Mode.Half: m0.digitalWrite(1); m1.digitalWrite(0); m2.digitalWrite(0); full_steps = _full_steps * 2; break;
+        case Mode['1/4']: m0.digitalWrite(0); m1.digitalWrite(1); m2.digitalWrite(0); full_steps = _full_steps * 4; break;
+        case Mode['1/8']: m0.digitalWrite(1); m1.digitalWrite(1); m2.digitalWrite(0); full_steps = _full_steps * 8; break;
+        case Mode['1/16']: m0.digitalWrite(0); m1.digitalWrite(0); m2.digitalWrite(1); full_steps = _full_steps * 16; break;
+        case Mode['1/32']: m0.digitalWrite(1); m1.digitalWrite(0); m2.digitalWrite(1); full_steps = _full_steps * 32; break;
         default: return setMode(Mode.Full);
     }
 }
 
-const mode = Mode['1/8'];
-const full_steps = (360 / 1.8) * Math.pow(2, mode) * (mode + 1) ;
-console.log(mode, Math.pow(2, mode), full_steps);
+const mode = Mode.Full;
 const delay = 1;
 
 console.log('stepup');
@@ -69,18 +70,6 @@ const main = async () => {
         await wait(delay);
     }
     console.log('end of loop');
-    // exo();
 };
 
 main();
-
-// process.on('SIGINT', () => exo());
-
-// const exo = () => {
-//     dir.unexport();
-//     step.unexport();
-//     m0.unexport();
-//     m1.unexport();
-//     m2.unexport();
-//     console.log('script end');
-// };
