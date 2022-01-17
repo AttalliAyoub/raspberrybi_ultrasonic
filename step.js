@@ -111,25 +111,22 @@ var wait = function (miliseconds) {
     });
 };
 var main = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var i, interval1;
+    var i, interval;
     return __generator(this, function (_a) {
         setMode(mode);
         console.log('2 pi forward');
         i = 0;
-        interval1 = setInterval(function () {
+        interval = setInterval(function () {
             step.trigger(delay, 1);
             i++;
             if (i >= full_steps) {
+                if (0 == dir.digitalRead())
+                    clearInterval(interval);
                 i = 0;
-                clearInterval(interval1);
                 console.log('2 pi backwords');
                 dir.digitalWrite(0);
             }
         }, delay * 2);
-        console.log('2 pi backwords');
-        // await wait(100);
-        // dir.digitalWrite(0);
-        // await wait(100);
         console.log('end of loop');
         return [2 /*return*/];
     });

@@ -54,20 +54,16 @@ const main = async () => {
     setMode(mode);
     console.log('2 pi forward');
     let i = 0;
-    const interval1  = setInterval(() => {
+    const interval  = setInterval(() => {
         step.trigger(delay, 1);
         i++;
         if (i >= full_steps) {
+            if (0 == dir.digitalRead()) clearInterval(interval);
             i = 0;
-            clearInterval(interval1);
             console.log('2 pi backwords');
             dir.digitalWrite(0);
         }
     }, delay * 2);
-    console.log('2 pi backwords');
-    // await wait(100);
-    // dir.digitalWrite(0);
-    // await wait(100);
     console.log('end of loop');
 };
 
