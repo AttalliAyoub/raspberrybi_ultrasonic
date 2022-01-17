@@ -82,8 +82,8 @@ var setMode = function (mode) {
         default: return setMode(Mode.Full);
     }
 };
-var full_steps = (360 / 1.8) * 2;
-var delay = 1;
+var full_steps = (360 / 1.8);
+var delay = 22;
 console.log('stepup');
 dir.writeSync(1);
 step.writeSync(0);
@@ -100,7 +100,7 @@ var main = function () { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                setMode(Mode.Half);
+                setMode(Mode.Full);
                 console.log('2 pi forward');
                 i = 0;
                 _a.label = 1;

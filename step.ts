@@ -1,4 +1,4 @@
-import { BinaryValue, Gpio } from 'onoff';
+import { Gpio } from 'onoff';
 
 enum Mode {
     Full,
@@ -28,8 +28,8 @@ const setMode = (mode: Mode = Mode.Full): void => {
     }
 }
 
-const full_steps = (360 / 1.8) * 2;
-const delay = 1;
+const full_steps = (360 / 1.8);
+const delay = 22;
 
 console.log('stepup');
 
@@ -47,7 +47,7 @@ const wait = (miliseconds: number) => {
 }
 
 const main = async () => {
-    setMode(Mode.Half);
+    setMode(Mode.Full);
     console.log('2 pi forward');
     for (let i = 0; i < full_steps; i++) {
         step.writeSync(1);
