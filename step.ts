@@ -1,8 +1,32 @@
 import { BinaryValue, Gpio } from 'onoff';
 
+enum Mode {
+    Full,
+    Half,
+    '1/4',
+    '1/8',
+    '1/16',
+    '1/32'
+};
 
 const dir = new Gpio(20, 'out');
 const step = new Gpio(21, 'out');
+
+const m0 = new Gpio(14, 'out');
+const m1 = new Gpio(15, 'out');
+const m2 = new Gpio(18, 'out');
+
+const setMode = (mode: Mode = Mode.Full): void => {
+    switch (mode) {
+        case Mode.Full: m0.writeSync(0); m1.writeSync(0); return m2.writeSync(0);
+        case Mode.Half: m0.writeSync(1); m1.writeSync(0); return m2.writeSync(0);
+        case Mode['1/4']: m0.writeSync(0); m1.writeSync(1); return m2.writeSync(0);
+        case Mode['1/8']: m0.writeSync(1); m1.writeSync(1); return m2.writeSync(0);
+        case Mode['1/16']: m0.writeSync(0); m1.writeSync(0); return m2.writeSync(1);
+        case Mode['1/32']: m0.writeSync(1); m1.writeSync(0); return m2.writeSync(1);
+        default: return setMode(Mode.Full);
+    }
+}
 
 const full_steps = 360 / 1.8;
 const delay = 10;
@@ -23,6 +47,7 @@ const wait = (miliseconds: number) => {
 }
 
 const main = async () => {
+    setMode();
     console.log('2 pi forward');
     for (let i = 0; i < full_steps; i++) {
         step.writeSync(1);
@@ -31,7 +56,9 @@ const main = async () => {
         await wait(delay);
     }
     console.log('2 pi backwords');
+    await wait(delay);
     dir.writeSync(0);
+    await wait(delay);
     for (let i = 0; i < full_steps; i++) {
         step.writeSync(1);
         await wait(delay);

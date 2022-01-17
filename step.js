@@ -37,8 +37,51 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var onoff_1 = require("onoff");
+var Mode;
+(function (Mode) {
+    Mode[Mode["Full"] = 0] = "Full";
+    Mode[Mode["Half"] = 1] = "Half";
+    Mode[Mode["1/4"] = 2] = "1/4";
+    Mode[Mode["1/8"] = 3] = "1/8";
+    Mode[Mode["1/16"] = 4] = "1/16";
+    Mode[Mode["1/32"] = 5] = "1/32";
+})(Mode || (Mode = {}));
+;
 var dir = new onoff_1.Gpio(20, 'out');
 var step = new onoff_1.Gpio(21, 'out');
+var m0 = new onoff_1.Gpio(14, 'out');
+var m1 = new onoff_1.Gpio(15, 'out');
+var m2 = new onoff_1.Gpio(18, 'out');
+var setMode = function (mode) {
+    if (mode === void 0) { mode = Mode.Full; }
+    switch (mode) {
+        case Mode.Full:
+            m0.writeSync(0);
+            m1.writeSync(0);
+            return m2.writeSync(0);
+        case Mode.Half:
+            m0.writeSync(1);
+            m1.writeSync(0);
+            return m2.writeSync(0);
+        case Mode['1/4']:
+            m0.writeSync(0);
+            m1.writeSync(1);
+            return m2.writeSync(0);
+        case Mode['1/8']:
+            m0.writeSync(1);
+            m1.writeSync(1);
+            return m2.writeSync(0);
+        case Mode['1/16']:
+            m0.writeSync(0);
+            m1.writeSync(0);
+            return m2.writeSync(1);
+        case Mode['1/32']:
+            m0.writeSync(1);
+            m1.writeSync(0);
+            return m2.writeSync(1);
+        default: return setMode(Mode.Full);
+    }
+};
 var full_steps = 360 / 1.8;
 var delay = 10;
 console.log('stepup');
@@ -57,6 +100,7 @@ var main = function () { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
+                setMode();
                 console.log('2 pi forward');
                 i = 0;
                 _a.label = 1;
@@ -76,24 +120,30 @@ var main = function () { return __awaiter(void 0, void 0, void 0, function () {
                 return [3 /*break*/, 1];
             case 5:
                 console.log('2 pi backwords');
-                dir.writeSync(0);
-                i = 0;
-                _a.label = 6;
+                return [4 /*yield*/, wait(delay)];
             case 6:
-                if (!(i < full_steps)) return [3 /*break*/, 10];
-                step.writeSync(1);
+                _a.sent();
+                dir.writeSync(0);
                 return [4 /*yield*/, wait(delay)];
             case 7:
                 _a.sent();
+                i = 0;
+                _a.label = 8;
+            case 8:
+                if (!(i < full_steps)) return [3 /*break*/, 12];
+                step.writeSync(1);
+                return [4 /*yield*/, wait(delay)];
+            case 9:
+                _a.sent();
                 step.writeSync(0);
                 return [4 /*yield*/, wait(delay)];
-            case 8:
-                _a.sent();
-                _a.label = 9;
-            case 9:
-                i++;
-                return [3 /*break*/, 6];
             case 10:
+                _a.sent();
+                _a.label = 11;
+            case 11:
+                i++;
+                return [3 /*break*/, 8];
+            case 12:
                 console.log('end of loop');
                 exo();
                 return [2 /*return*/];
