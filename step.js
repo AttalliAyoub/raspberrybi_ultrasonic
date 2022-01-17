@@ -85,6 +85,8 @@ var main = function () { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         setMode(mode);
         step.pwmWrite(255);
+        setTimeout(function () {
+        }, 10000);
         return [2 /*return*/];
     });
 }); };

@@ -53,6 +53,9 @@ step.digitalWrite(0);
 const main = async () => {
     setMode(mode);
     step.pwmWrite(255);
+    setTimeout(() => {
+        
+    }, 10000);
     // console.log('2 pi forward');
     // let i = 0;
     // const interval  = setInterval(() => {
