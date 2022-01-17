@@ -1,4 +1,4 @@
-// import ws from 'ws';
+import { WebSocketServer } from 'ws';
 import { Gpio } from 'pigpio';
 
 enum Mode {
@@ -44,40 +44,47 @@ const setMode = (mode: Mode = Mode.Full): void => {
     }
 }
 
-const mode = Mode['1/32'];
+// const mode = Mode.Full;
 const delay = 1;
 dir.digitalWrite(1);
 step.digitalWrite(0);
 
 
-let pulseWidth = 1000;
-let increment = 100;
+const wss = new WebSocketServer({ port: 5000 });
+
+let distanation_steps = 0;
+let current_steps = 0;
+
+wss.on('connection', (ws) => {
+    ws.on('message', (data) => {
+        // console.log('received: %s', data);
+        const event = JSON.parse(data.toString());
+        switch (event.name) {
+            case 'go':
+                distanation_steps = event.value * full_steps;
+                break;
+            case 'mode':
+                setMode(event.mode);
+                // distanation_steps = event * full_steps;
+                break;
+            default:
+                break;
+        }
+
+    });
+    ws.send(JSON.stringify({'event': 'you are on'}));
+});
 
 setInterval(() => {
-    step.servoWrite(pulseWidth);
-    pulseWidth += increment;
-    if (pulseWidth >= 2000) {
-        increment = -100;
-    } else if (pulseWidth <= 1000) {
-        increment = 100;
+    const direction = distanation_steps - current_steps;
+    while (Math.abs(direction) > 1) {
+        if (direction > 0) {
+            dir.digitalWrite(1);
+            current_steps++;
+        } else {
+            dir.digitalWrite(0);
+            current_steps--;
+        }
+        step.trigger(delay, 1);
     }
-}, 1);
-
-// const main = async () => {
-//     setMode(mode);
-//     console.log('2 pi forward');
-//     let i = 0;
-//     const interval  = setInterval(() => {
-//         step.trigger(delay, 1);
-//         i++;
-//         if (i >= full_steps * 180) {
-//             if (0 == dir.digitalRead()) clearInterval(interval);
-//             i = 0;
-//             console.log('2 pi backwords');
-//             dir.digitalWrite(0);
-//         }
-//     }, delay * 2);
-//     console.log('end of loop');
-// };
-
-// main();
+}, delay * 2);

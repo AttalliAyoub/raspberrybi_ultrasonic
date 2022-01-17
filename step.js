@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-// import ws from 'ws';
+var ws_1 = require("ws");
 var pigpio_1 = require("pigpio");
 var Mode;
 (function (Mode) {
@@ -41,36 +41,42 @@ var setMode = function (mode) {
         default: return setMode(Mode.Full);
     }
 };
-var mode = Mode['1/32'];
+// const mode = Mode.Full;
 var delay = 1;
 dir.digitalWrite(1);
 step.digitalWrite(0);
-var pulseWidth = 1000;
-var increment = 100;
+var wss = new ws_1.WebSocketServer({ port: 5000 });
+var distanation_steps = 0;
+var current_steps = 0;
+wss.on('connection', function (ws) {
+    ws.on('message', function (data) {
+        // console.log('received: %s', data);
+        var event = JSON.parse(data.toString());
+        switch (event.name) {
+            case 'go':
+                distanation_steps = event.value * full_steps;
+                break;
+            case 'mode':
+                setMode(event.mode);
+                // distanation_steps = event * full_steps;
+                break;
+            default:
+                break;
+        }
+    });
+    ws.send(JSON.stringify({ 'event': 'you are on' }));
+});
 setInterval(function () {
-    step.servoWrite(pulseWidth);
-    pulseWidth += increment;
-    if (pulseWidth >= 2000) {
-        increment = -100;
+    var direction = distanation_steps - current_steps;
+    while (Math.abs(direction) > 1) {
+        if (direction > 0) {
+            dir.digitalWrite(1);
+            current_steps++;
+        }
+        else {
+            dir.digitalWrite(0);
+            current_steps--;
+        }
+        step.trigger(delay, 1);
     }
-    else if (pulseWidth <= 1000) {
-        increment = 100;
-    }
-}, 1);
-// const main = async () => {
-//     setMode(mode);
-//     console.log('2 pi forward');
-//     let i = 0;
-//     const interval  = setInterval(() => {
-//         step.trigger(delay, 1);
-//         i++;
-//         if (i >= full_steps * 180) {
-//             if (0 == dir.digitalRead()) clearInterval(interval);
-//             i = 0;
-//             console.log('2 pi backwords');
-//             dir.digitalWrite(0);
-//         }
-//     }, delay * 2);
-//     console.log('end of loop');
-// };
-// main();
+}, delay * 2);
