@@ -97,7 +97,7 @@ var setMode = function (mode) {
         default: return setMode(Mode.Full);
     }
 };
-var mode = Mode.Full;
+var mode = Mode.Half;
 var delay = 1;
 console.log('stepup');
 dir.digitalWrite(1);

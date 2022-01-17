@@ -32,7 +32,7 @@ const setMode = (mode: Mode = Mode.Full): void => {
     }
 }
 
-const mode = Mode.Full;
+const mode = Mode.Half;
 const delay = 1;
 
 console.log('stepup');
