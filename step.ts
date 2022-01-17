@@ -12,6 +12,7 @@ enum Mode {
     '1/128',
 };
 
+
 const dir = new Gpio(20, { mode: Gpio.OUTPUT });
 const step = new Gpio(21, { mode: Gpio.OUTPUT });
 
@@ -22,16 +23,23 @@ const m2 = new Gpio(18, { mode: Gpio.OUTPUT });
 const _full_steps = (360 / 1.8);
 let full_steps = (360 / 1.8 / 2);
 
+const setMode_Help = (list: number[]) => {
+    m0.digitalWrite(list[0]);
+    m1.digitalWrite(list[1]);
+    m2.digitalWrite(list[2]);
+    full_steps = list[3];
+};
+
 const setMode = (mode: Mode = Mode.Full): void => {
     switch (mode) {
-        case Mode.Full: m0.digitalWrite(0); m1.digitalWrite(0); m2.digitalWrite(0); full_steps = _full_steps; break;
-        case Mode.Half: m0.digitalWrite(1); m1.digitalWrite(0); m2.digitalWrite(0); full_steps = _full_steps * 4; break;
-        case Mode['1/4']: m0.digitalWrite(0); m1.digitalWrite(1); m2.digitalWrite(0); full_steps = _full_steps * 16; break;
-        case Mode['1/8']: m0.digitalWrite(1); m1.digitalWrite(1); m2.digitalWrite(0); full_steps = _full_steps * 32; break;
-        case Mode['1/16']: m0.digitalWrite(0); m1.digitalWrite(0); m2.digitalWrite(1); full_steps = _full_steps; break;
-        case Mode['1/32']: m0.digitalWrite(1); m1.digitalWrite(0); m2.digitalWrite(1); full_steps = _full_steps * 4; break;
-        case Mode['1/64']: m0.digitalWrite(0); m1.digitalWrite(1); m2.digitalWrite(1); full_steps = _full_steps * 4; break;
-        case Mode['1/128']: m0.digitalWrite(1); m1.digitalWrite(1); m2.digitalWrite(1); full_steps = _full_steps * 4; break;
+        case Mode.Full: return setMode_Help([0, 0, 0, _full_steps]);
+        case Mode.Half: return setMode_Help([1, 0, 0, _full_steps * 4]);
+        case Mode['1/4']: return setMode_Help([0, 1, 0, _full_steps * 16]);
+        case Mode['1/8']: return setMode_Help([1, 1, 0, _full_steps * 32]);
+        case Mode['1/16']: return setMode_Help([0, 0, 1, _full_steps]);
+        case Mode['1/32']: return setMode_Help([1, 0, 1, _full_steps * 4]);
+        case Mode['1/64']: return setMode_Help([0, 1, 1, _full_steps * 4]);
+        case Mode['1/128']: return setMode_Help([1, 1, 1, _full_steps * 4]);
         default: return setMode(Mode.Full);
     }
 }
