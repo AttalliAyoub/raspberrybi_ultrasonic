@@ -28,8 +28,8 @@ const setMode = (mode: Mode = Mode.Full): void => {
     }
 }
 
-const full_steps = 360 / 1.8;
-const delay = 10;
+const full_steps = (360 / 1.8) * 2;
+const delay = 1;
 
 console.log('stepup');
 
