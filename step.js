@@ -83,7 +83,7 @@ var setMode = function (mode) {
         default: return setMode(Mode.Full);
     }
 };
-var mode = Mode['1/8'];
+var mode = Mode['1/4'];
 var full_steps = (360 / 1.8) * mode * 2;
 var delay = 1;
 console.log('stepup');

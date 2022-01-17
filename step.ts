@@ -29,7 +29,7 @@ const setMode = (mode: Mode = Mode.Full): void => {
     }
 }
 
-const mode = Mode['1/8'];
+const mode = Mode['1/4'];
 const full_steps = (360 / 1.8) * mode * 2;
 const delay = 1;
 
